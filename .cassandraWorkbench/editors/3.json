@@ -1,0 +1,1 @@
+{"id":"28FgkCSBT4yRJjrs","body":"DROP KEYSPACE movies;","filename":"script_3.cql","clusterName":"Cluster AllowAllAuthenticator","keyspace":"movies","source":"action","modified":true}

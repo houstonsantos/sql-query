@@ -1,0 +1,10 @@
+{
+    "cassandraWorkbench.activeClusterName": "Cluster AllowAllAuthenticator",
+    "cassandraWorkbench.activeKeyspace": [
+        [
+            "Cluster AllowAllAuthenticator",
+            "movies"
+        ]
+    ],
+    "cassandraWorkbench.splitPosition": 77.43471074380165
+}
