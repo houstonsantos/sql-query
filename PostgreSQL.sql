@@ -9,4 +9,20 @@
 
 ALTER SEQUENCE zauser_za_coduser_seq RESTART WITH 1;
 UPDATE zuser SET zu_coduser = nextval('zauser_za_coduser_seq');
+
+CREATE TABLE fornecedor (
+    codigo BIGSERIAL,
+    n_nota VARCHAR(50) NOT NULL,
+    r_social VARCHAR(50) NOT NULL,
+    c_fornec VARCHAR(120) NOT NULL,
+    PRIMARY KEY(codigo)
+);
+
+INSERT INTO fornecedor(n_nota, r_social, c_fornec)
+	VALUES('200', 'FORNECEDOR 1', '100'), 
+	      ('201', 'FORNECEDOR 2', '101'), 
+	      ('202', 'FORNECEDOR 3', '102'),
+	      ('203', 'FORNECEDOR 4', '103'),
+	      ('204', 'FORNECEDOR 5', '104'),
+	      ('205', 'FORNECEDOR 6', '105');
 	
