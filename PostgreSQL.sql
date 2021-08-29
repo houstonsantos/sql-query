@@ -10,6 +10,7 @@
 ALTER SEQUENCE zauser_za_coduser_seq RESTART WITH 1;
 UPDATE zuser SET zu_coduser = nextval('zauser_za_coduser_seq');
 
+
 CREATE TABLE fornecedor (
     codigo BIGSERIAL,
     n_nota VARCHAR(50) NOT NULL,
@@ -18,11 +19,12 @@ CREATE TABLE fornecedor (
     PRIMARY KEY(codigo)
 );
 
-INSERT INTO fornecedor(n_nota, r_social, c_fornec)
-	VALUES('200', 'FORNECEDOR 1', '100'), 
-	      ('201', 'FORNECEDOR 2', '101'), 
-	      ('202', 'FORNECEDOR 3', '102'),
-	      ('203', 'FORNECEDOR 4', '103'),
-	      ('204', 'FORNECEDOR 5', '104'),
-	      ('205', 'FORNECEDOR 6', '105');
-	
+
+CREATE DATABASE base_teste
+    WITH 
+    OWNER = postgres
+    ENCODING = 'WIN1252'
+    LC_COLLATE = 'C'
+    LC_CTYPE = 'C'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
