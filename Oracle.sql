@@ -1,7 +1,8 @@
+--
 SET SERVEROUTPUT ON
+
+--
 SHOW PARAMETER NLS_DATE_FORMAT
-
-
 SELECT SYSDATE FROM DUAL;
 
 
@@ -63,6 +64,17 @@ CREATE TEMPORARY TABLESPACE PROTHEUS_TEMP TEMPFILE 'C:\Oraclexe\app\oracle\orada
 -- ALTERANDO TABLESPACE DE USUÁRIO
 ALTER USER protheus TEMPORARY TABLESPACE PROTHEUS_TEMP;
 ALTER USER protheus DEFAULT TABLESPACE PROTHEUS;
+
+
+-- VEFIFICA INFORMAÇÕES DE UNDO
+SHOW PARAMETER undo;
+SELECT * FROM v$undostat;
+SELECT * FRoM v$version;
+
+
+-- ALTERA PARÂMETRO UNDO_RETENTION
+ALTER SYSTEM SET UNDO_RETENTION = 6691;
+ALTER TABLESPACE undotbs1 RETENTION GUARANTEE;
 
 
 -- ROLES
@@ -225,3 +237,35 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('OPS! ERRO');
 END;
 /
+
+
+-- VERIFICA SE O FLASBACK DATABASE ESTA ON
+SELECT flashback_on FROM v$database;
+
+
+-- FLASHBACK QUERY
+SELECT * FROM entrada AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '5' MINUTE;
+SELECT * FROM entrada AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '5 0:00:00' DAY TO SECOND;
+SELECT * FROM entrada AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '0 3:30:00' DAY TO SECOND WHERE nf = '000045' AND fornecedor = '1541';
+
+SELECT db.nf, db.fornecedor, fl.nf, fl.fornecedor FROM entrada db
+RIGHT JOIN (SELECT * FROM entrada AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '0 0:15:00' DAY TO SECOND) fl
+ON db.nf = fl.nf AND db.fornecedor = fl.fornecedor WHERE db.nf IS NULL;
+
+
+-- FLASHBACK VERSION QUERY
+SELECT versions_starttime, versions_operation, nf FROM entrada 
+VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE WHERE versions_starttime IS NOT NULL ORDER BY versions_starttime;
+
+SELECT versions_starttime stime, 
+ versions_endtime endtime,  
+ versions_xid xid,  
+ CASE  
+    WHEN versions_operation = 'I' then  'INSERT' 
+    WHEN versions_operation = 'U' then  'UPDATE' 
+    WHEN versions_operation = 'D' then  'DELETE' 
+ END as operation, nf, fornecedor
+ FROM entrada VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE
+ WHERE versions_starttime IS NOT NULL ORDER BY stime;
+
+ show con_name
