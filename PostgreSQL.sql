@@ -18,13 +18,3 @@ CREATE TABLE fornecedor (
     c_fornec VARCHAR(120) NOT NULL,
     PRIMARY KEY(codigo)
 );
-
-
-CREATE DATABASE base_teste
-    WITH 
-    OWNER = postgres
-    ENCODING = 'WIN1252'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
